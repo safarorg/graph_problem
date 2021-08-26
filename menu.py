@@ -10,3 +10,5 @@ def printMenu():
     print("8. Test number of different routes between two towns")
     print("9. Test the shortest path between two towns")
     print("10. Exit")
+
+

@@ -3,7 +3,6 @@ from collections import defaultdict
 
 infinity = 9999999
 
-
 class Controller:
     def __init__(self):
         self.graph_obj = Graph()
