@@ -38,7 +38,7 @@ class Controller:
         distance = 0
         for i in range(len(townsList)-1):
             if self.containsTown(townsList[i]) and self.containsDestinationTown(townsList[i], townsList[i+1]):
-                distance += self.graph_obj.getGraph()[townsList[i]][townsList[i+1]]
+                distance += int(self.graph_obj.getGraph()[townsList[i]][townsList[i+1]])
             else:
                 distance = -1
                 break
@@ -52,12 +52,12 @@ class Controller:
         return self.graph_obj.getGraph()[town]
 
     def containsDestinationTown(self, townStart, townEnd):
-        return townEnd == self.getTown(townStart).town
+        return townEnd in self.getTown(townStart)
 
     def numberDifferentRoutesAndValidate(self, inp):
         towns = inp
         start = Town(towns[0])
-        end = Town[towns[1]]
+        end = Town(towns[1])
 
         return self.numberDifferentRoutes(start, end)
     
@@ -123,19 +123,18 @@ class Controller:
             size = len(self.graph_obj.getGraphP()[cand.getTown().getName()])
 
             for i in range(size):
-                neighbor = self.graph_obj.getGraphP()[cand.getTown().getName()[i]]
+                neighbor = self.graph_obj.getGraphP()[cand.getTown().getName()][i]
                 self.updateMinimumWeight(neighbor, cand)
             
-            self.visited.append(cand.getTown().getName())
+            self.visited.add(cand.getTown().getName())
 
 
     def updateMinimumWeight(self, neighbor, cand):
 
-        w  = self.minimumWeight[cand.getTown().getName()] + neighbor.getWeight()
-
-        if w < self.minimumWeight[neighbor.getTown().getName()]:
-            self.minimumWeight[neighbor.getTown().getName()] = w
-            self.predecessor[neighbor.getTown().getName()] = cand.getTown()
+        w  = self.minimumWeight[cand.getTown().getName()] + int(neighbor.getWeight())
+        if w < self.minimumWeight[neighbor.getTown()]:
+            self.minimumWeight[neighbor.getTown()] = w
+            self.predecessor[neighbor.getTown()] = cand.getTown()
         
     
     def isSameStartCity(self, start):
@@ -148,8 +147,8 @@ class Controller:
         self.candidates = set()
         self.visited = set()
 
-        for key in self.graph_obj.getGraphP.keys():
-            self.candidates.append(key)
+        for key in self.graph_obj.getGraphP():
+            self.candidates.add(key)
         
         for k in self.candidates:
             self.minimumWeight[k] = infinity
@@ -176,8 +175,8 @@ class Controller:
 
         if predecessorTown:
             result.append(predecessorTown)
-            while predecessorTown.getName() != start.getname():
-                predecessorTown = self.predecessor[predecessorTown.getname()]
+            while predecessorTown.getName() != start.getName():
+                predecessorTown = self.predecessor[predecessorTown.getName()]
                 result.append(predecessorTown)
 
         return result
