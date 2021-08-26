@@ -115,16 +115,16 @@ class Controller:
 
         self.minimumWeight[start.getName()] = 0
 
-        while len(self.candidates) > 0:
+        while len(self.candidates) != 0:
 
             cand = self.getMinimumCand()
 
             self.candidates.remove(cand.getTown().getName())
 
-            size = len(self.graph_obj.getGraphP().get(cand.getTown().getName()))
+            size = len(self.graph_obj.getGraphP()[cand.getTown().getName()])
 
             for i in range(size):
-                neighbor = self.graph_obj.getGraphP().get(cand.getTown().getName())[i]
+                neighbor = self.graph_obj.getGraphP()[cand.getTown().getName()[i]]
                 self.updateMinimumWeight(neighbor, cand)
             
             self.visited.append(cand.getTown().getName())
@@ -146,8 +146,8 @@ class Controller:
     def initializeStructuresDijkstra(self):
         self.minimumWeight = defaultdict(int)
         self.predecessor = defaultdict(Town)
-        self.candidates = defaultdict(str)
-        self.visited = defaultdict(str)
+        self.candidates = set()
+        self.visited = set()
 
         for key in self.graph_obj.getGraphP.keys():
             self.candidates.append(key)
@@ -184,7 +184,7 @@ class Controller:
         return result
 
     def generateGraph(self, inp):
-        return self.graph_obj(inp)
+        return self.graph_obj.generateGraph(inp)
 
     def wasDijkstraExecuted(self):
         return self.wasDijkstraExecuted
@@ -194,7 +194,7 @@ class Controller:
     
 
     def isGraphLoaded(self):
-        return self.isGraphLoaded
+        return self.graphLoaded
 
     def setGraphLoaded(self, graphLoaded):
         self.graphLoaded = graphLoaded
